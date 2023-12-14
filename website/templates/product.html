@@ -1,0 +1,37 @@
+{% extends  "base.html" %} {% block title %}Товар{% endblock %}
+
+{% block content %}
+<div class="product-container">
+
+    <div class="product-photo">
+        <img src={{ product.path_to_img }} alt="{{ product.description }}" width="300">
+    </div>
+
+    <div class="product-details">
+        <h2  class="ph2">{{ product.description }}</h2>
+
+        <!-- Product Characteristics -->
+        <ul class="list2">
+            <li>Колір: {{ product.color }}</li>
+            <li>Матеріал: {{ product.material }}</li>
+            <li>Ціна: ₴{{ product.price }}</li>
+            <li>Висота: {{ product.height }} см.</li>
+            <li>Ширина: {{ product.width }} см.</li>
+            <li>Довжина: {{ product.length }} см.</li>
+            <li>Кількість: {{ product.quantity }}</li>
+        </ul>
+
+          <form method="post" action="{% if user.is_authenticated %}{{ url_for('views.home') }}{% else %}{{ url_for('auth.login') }}{% endif %}">
+    <button type="submit" class="add-to-cart" name="add-to-cart" value="{{ product.id }}">
+        Додати до корзини
+    </button>
+</form>
+
+    </div>
+</div>
+{% endblock %}
+
+        {% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="/website/static/product.css"/>
+        {% endblock %}
+

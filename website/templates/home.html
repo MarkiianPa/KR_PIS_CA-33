@@ -1,0 +1,45 @@
+{% extends  "base.html" %} {% block title %}Головна{% endblock %}
+
+{% block content %}
+<h1>{{ categ }}</h1>
+<form method="POST">
+    <div class="container">
+        <div class="row">
+            {% for product in products %}
+                <div class="col-md-3">
+                    <div class="product">
+                        <div class="image">
+                            <a href="{{ url_for('info.product', product_id=product.id) }}">
+                            <img src={{ product.path_to_img }} alt={{ product.description }} >
+                                </a>
+                            <div class="placeholder"></div>
+                            <div class="info">
+                                <h3>{{ product.description }}</h3>
+                                <div class="info-price">
+                                    <span class="price">{{ product.price }}₴</span>
+                                    {% if user.is_authenticated %}
+                                    <button class="add-to-cart" name="add-to-cart" value={{ product.id }}>
+                                        <ion-icon name="cart-outline"></ion-icon>
+                                     </button>
+                                    {% else %}
+                                     <a href="/login" class="add-to-cart">
+                                      <ion-icon name="cart-outline"></ion-icon>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</form>
+
+{% endblock %}
+
+
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="/website/static/home.css">
+{% endblock %}

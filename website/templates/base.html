@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ua">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous"/>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      crossorigin="anonymous"/>
+
+    <link rel="stylesheet" type="text/css" href="/website/static/styles.css">
+
+    <title>{% block title %}Home{% endblock %}</title>
+    {% block extra_css %}{% endblock %}
+
+
+</head>
+<body>
+
+<header>
+    <h1>Магазин меблів</h1>
+
+    <div class="action-bar">
+   <div class="catalog-dropdown">
+    <form method="POST" action="{{ url_for('views.update_category') }}">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="catalogDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Виберіть каталог
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="catalogDropdown">
+                <li><button type="submit" class="dropdown-item" name="category" value="Всі меблі">Всі меблі</button></li>
+                <li><button type="submit" class="dropdown-item" name="category" value="Кухня">Кухня</button></li>
+                <li><button type="submit" class="dropdown-item" name="category" value="Вітальня">Вітальня</button></li>
+                <li><button type="submit" class="dropdown-item" name="category" value="Спальня">Спальня</button></li>
+                <li><button type="submit" class="dropdown-item" name="category" value="Дитяча">Дитяча</button></li>
+            </ul>
+        </div>
+    </form>
+</div>
+<nav>
+        <div class="navbar-wrap">
+        <ul>
+            <li><a id="home" href="/">Головна</a></li>
+            <li><a id="about-us" href="/about-us">Про нас</a></li>
+            <li><a id="contact" href="/contact">Контакти</a></li>
+            {% if user.is_authenticated %}
+            <li><a id="logout" href="/logout">Вийти з акаунту</a></li>
+            {% else %}
+            <li><a id="sign-up" href="/sign-up">Реєстрація</a></li>
+            <li><a id="login" href="/login">Вхід</a></li>
+            {% endif %}
+        </ul>
+            {% if user.is_authenticated %}
+            <a href="#modalWin" class="callback">Передзвоніть мені</a>
+            {% else %}
+            <a href="/login" class="callback">Передзвоніть мені</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="cart">
+            {% if user.is_authenticated %}
+            <a href="#" data-toggle="modal" data-target="#cartModal">
+                <ion-icon name="cart-outline"></ion-icon></a>
+            {% else %}
+            <a href="/login" data-toggle="modal">
+            <ion-icon name="cart-outline"></ion-icon></a>
+            {% endif %}
+    </div>
+</div>
+</header>
+
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-dismissible {% if category == 'error' %}alert-danger{% else %}alert-success{% endif %}">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+
+<div id="modalWin" class="modal">
+    <div class="modal-window">
+        <h1>Очікуйте. Менеджер зараз з вами зв'яжеться</h1>
+        <a href="/" class="btn-close">X</a>
+    </div>
+    <div class="overlay"></div>
+</div>
+
+  <!-- Cart modal -->
+  <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cartModalLabel">Корзина</h5>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Товар</th>
+                            <th scope="col">Ціна</th>
+                            <th scope="col">Кількість</th>
+                            <th scope="col">Дія</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart %}
+                            <tr>
+                                <td>{{ item.description }}</td>
+                                <td>{{ item.price }}₴</td>
+                                <td>{{ item.cnt }}</td>
+                                <td>
+                                    <form method="post" action="{{ url_for('views.remove_from_cart', product_id=item['id']) }}">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <button type="submit" class="btn btn-danger">Видалити</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Продовжити покупки</button>
+                {% if cart %}
+                <a href="#" class="btn btn-primary checkout-btn" onclick="showModal()">Перейти до оформлення замовлення</a>
+                {% else %}
+                <p>Кошик порожній</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container"> {% block content%} {% endblock %}</div>
+
+<footer>
+    <p>&copy; 2023 Магазин меблів. Усі права захищені.</p>
+</footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+
+<div id="modalWin2" class="modal" style="display: none;">
+    <div class="modal-window">
+        <h1>Очікуйте. Менеджер зараз з вами зв'яжеться для подальшого оформлення замовлення</h1>
+        <a href="/" class="btn-close">X</a>
+    </div>
+    <div class="overlay3"></div>
+</div>
+
+<script>
+    function showModal() {
+        document.getElementById('modalWin2').classList.add('show');
+    }
+</script>
+
+</body>
+</html>

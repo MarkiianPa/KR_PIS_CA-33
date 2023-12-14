@@ -1,0 +1,29 @@
+{% extends  "base.html" %} {% block title %}Контакти{% endblock %}
+
+{% block content %}
+<form method="POST">
+<div class="container">
+    <section class="main-content">
+        <h2>Зв'яжіться з нами</h2>
+        <p>
+            Маєте запитання чи побажання? Ми будемо раді почути вас! Зв'яжіться з нами, використовуючи контактну інформацію нижче.
+        </p>
+
+        <address>
+            <strong>Адреса нашого магазину:</strong><br>
+            Україна, Львів, вул. Степана Бандери
+        </address>
+
+        <p>
+            <strong>Електронна пошта:</strong> info@example.com<br>
+            <strong>Номер телефону:</strong> +1 (123) 456-7890
+        </p>
+    </section>
+</div>
+</form>
+{% endblock %}
+
+{% block extra_css %}
+    <!-- Підключення вашого CSS файлу -->
+    <link rel="stylesheet" type="text/css" href="/website/static/contact.css">
+{% endblock %}

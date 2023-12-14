@@ -1,0 +1,69 @@
+{% extends  "base.html" %} {% block title %}Реєстрація{% endblock %}
+
+{% block content %}
+<form method="POST">
+    <h3 align="center">Реєстрація</h3>
+    <div class="form-group">
+        <label for="email">Електронна пошта</label>
+        <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                placeholder="Введіть електронну пошту"
+        />
+    </div>
+    <div class="form-group">
+        <label for="firstName">Ім'я</label>
+        <input
+                type="text"
+                class="form-control"
+                id="firstName"
+                name="firstName"
+                placeholder="Введіть ім'я"
+        />
+    </div>
+    <div class="form-group">
+        <label for="surName">Прізвище</label>
+        <input
+                type="text"
+                class="form-control"
+                id="surName"
+                name="surName"
+                placeholder="Введіть прізвище"
+        />
+    </div>
+    <div class="form-group">
+        <label for="usercontact">Номер телефону</label>
+        <input
+                type="text"
+                class="form-control"
+                id="usercontact"
+                name="usercontact"
+                placeholder="Введіть номер телефону"
+        />
+    </div>
+    <div class="form-group">
+        <label for="password1">Пароль</label>
+        <input
+                type="password"
+                class="form-control"
+                id="password1"
+                name="password1"
+                placeholder="Введіть пароль"
+        />
+    </div>
+    <div class="form-group">
+        <label for="password2">Пароль (підтвердження)</label>
+        <input
+                type="password"
+                class="form-control"
+                id="password2"
+                name="password2"
+                placeholder="Підтвердіть пароль"
+        />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}
