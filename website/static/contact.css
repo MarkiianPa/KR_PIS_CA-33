@@ -1,0 +1,28 @@
+
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff; /* Білий фон контейнера */
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Тінь контейнера */
+        }
+
+        .main-content {
+            padding: 20px;
+        }
+
+
+        h2 {
+            color: #343a40; /* Темно-сірий колір для заголовків */
+        }
+
+        footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
